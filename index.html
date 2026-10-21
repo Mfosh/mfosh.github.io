@@ -4,19 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matias Fischer | Technical Sound Designer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
             --bg-deep: #0a0a0a;
             --card-dark: #141414;
-            --accent-red: #8b0000; /* Deep Crimson - AAAJ Identity */
+            --accent-red: #8b0000;      /* crimson: borders, buttons */
+            --accent-text: #d04a3c;     /* lighter red: text on dark (AA contrast) */
             --pure-white: #ffffff;
             --text-main: #e5e7eb;
-            --text-dim: #9ca3af;
-            --text-dark: #111111;
+            --text-dim: #a3a9b3;
+            --line: rgba(255,255,255,.08);
+
+            /* Radius system */
+            --r-card: 12px;
+            --r-small: 8px;
+            --r-pill: 999px;
         }
+
+        html { scroll-behavior: smooth; }
 
         * { box-sizing: border-box; }
 
@@ -25,20 +33,14 @@
             background-color: var(--bg-deep);
             color: var(--text-main);
             margin: 0;
-            padding: 0;
             line-height: 1.6;
         }
 
         .hero-banner {
             width: 100%;
-            height: auto;
-            min-height: 150px;
             aspect-ratio: 16 / 4;
-            background-image: url('banner.png'); 
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center top; 
-            background-color: #000;
+            min-height: 150px;
+            background: #000 url('banner.png') center / cover no-repeat;
             border-bottom: 3px solid var(--accent-red);
         }
 
@@ -47,10 +49,10 @@
             max-width: 950px;
             margin: 0 auto;
             padding: 60px 0;
-            text-align: center;
+            text-align: left;
         }
 
-        header { margin-bottom: 4rem; }
+        header { margin-bottom: 4rem; text-align: center; }
 
         h1 {
             font-family: 'Syncopate', sans-serif;
@@ -62,33 +64,69 @@
 
         .role {
             font-size: 1rem;
-            color: var(--accent-red);
+            color: var(--accent-text);
             text-transform: uppercase;
             letter-spacing: 4px;
             margin-top: 1rem;
             font-weight: 700;
         }
 
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 1.4rem;
+            padding: 6px 16px;
+            border: 1px solid var(--line);
+            border-radius: var(--r-pill);
+            background: rgba(255,255,255,.03);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .status-dot {
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            background: #3ddc84;
+            box-shadow: 0 0 8px #3ddc84;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+        @media (prefers-reduced-motion: reduce) { .status-dot { animation: none; } }
+
+        /* Hero stays centered */
         .summary {
-            font-size: 1rem;
             color: var(--text-dim);
             max-width: 700px;
             margin: 2.5rem auto;
         }
 
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; 
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-            background: #000;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            margin-bottom: 4rem;
-            border: 1px solid #222;
+        /* ---------- Waveform divider (the audio motif) ---------- */
+        .wave {
+            height: 28px;
+            margin: 5rem 0 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='28' viewBox='0 0 160 28'%3E%3Cg fill='%23d04a3c'%3E%3Crect x='2' y='11' width='3' height='6' rx='1.5'/%3E%3Crect x='12' y='7' width='3' height='14' rx='1.5'/%3E%3Crect x='22' y='3' width='3' height='22' rx='1.5'/%3E%3Crect x='32' y='9' width='3' height='10' rx='1.5'/%3E%3Crect x='42' y='1' width='3' height='26' rx='1.5'/%3E%3Crect x='52' y='6' width='3' height='16' rx='1.5'/%3E%3Crect x='62' y='10' width='3' height='8' rx='1.5'/%3E%3Crect x='72' y='4' width='3' height='20' rx='1.5'/%3E%3Crect x='82' y='8' width='3' height='12' rx='1.5'/%3E%3Crect x='92' y='2' width='3' height='24' rx='1.5'/%3E%3Crect x='102' y='7' width='3' height='14' rx='1.5'/%3E%3Crect x='112' y='11' width='3' height='6' rx='1.5'/%3E%3Crect x='122' y='5' width='3' height='18' rx='1.5'/%3E%3Crect x='132' y='9' width='3' height='10' rx='1.5'/%3E%3Crect x='142' y='3' width='3' height='22' rx='1.5'/%3E%3Crect x='152' y='10' width='3' height='8' rx='1.5'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-position: left center;
+            opacity: .55;
+            -webkit-mask-image: linear-gradient(90deg, #000 20%, transparent);
+                    mask-image: linear-gradient(90deg, #000 20%, transparent);
         }
 
-        .video-container iframe {
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--r-card);
+            background: #000;
+            border: 1px solid var(--line);
+            box-shadow: 0 0 40px rgba(139,0,0,.18);
+            margin-bottom: 4rem;
+        }
+
+        .video-container iframe,
+        .card-video iframe {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
@@ -100,96 +138,119 @@
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
-            margin-bottom: 5rem;
         }
 
         .btn {
+            display: inline-block;
             padding: 14px 30px;
-            border-radius: 50px;
+            border-radius: var(--r-pill);
             text-decoration: none;
             font-weight: 700;
             font-size: 0.8rem;
             text-transform: uppercase;
-            transition: 0.3s;
+            transition: .3s;
             border: 2px solid transparent;
         }
+        .btn-sm { font-size: 0.7rem; padding: 10px 20px; }
+        .btn-primary { background: var(--accent-red); color: #fff; }
+        .btn-primary:hover { filter: brightness(1.25); transform: translateY(-2px); }
+        .btn-secondary { border-color: #333; color: #fff; }
+        .btn-secondary:hover { border-color: var(--accent-text); color: var(--accent-text); }
+        .btn:focus-visible, a:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; }
 
-        .btn-primary { background: var(--accent-red); color: white; }
-        .btn-primary:hover { filter: brightness(1.2); transform: translateY(-2px); }
-        .btn-secondary { border-color: #333; color: white; }
-        .btn-secondary:hover { border-color: var(--accent-red); color: var(--accent-red); }
+        /* ---------- About ---------- */
+        .about { max-width: 68ch; margin: 0 0 1.2rem; color: var(--text-main); font-size: 1.05rem; }
 
+        /* ---------- Section titles ---------- */
         .section-title {
             font-family: 'Syncopate', sans-serif;
-            font-size: 0.8rem;
+            font-size: clamp(1rem, 2.6vw, 1.3rem);
             text-transform: uppercase;
             letter-spacing: 4px;
             color: var(--pure-white);
-            margin: 6rem 0 3rem 0;
+            margin: 1.5rem 0 3rem;
+            padding-bottom: 1rem;
+            position: relative;
+        }
+        .section-title::after {
+            content: "";
+            position: absolute;
+            left: 0; bottom: 0;
+            width: 48px; height: 3px;
+            background: var(--accent-red);
+            border-radius: 2px;
         }
 
+        /* ---------- Cards ---------- */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
         }
 
-        .skill-card {
+        .skill-card, .small-card {
             background: var(--card-dark);
-            padding: 30px 20px;
-            border-radius: 12px;
-            border: 1px solid #222;
-            transition: 0.3s;
+            border: 1px solid var(--line);
+            border-radius: var(--r-card);
+            transition: border-color .3s, box-shadow .3s, transform .3s;
+        }
+        .skill-card:hover, .small-card:hover {
+            border-color: rgba(208,74,60,.6);
+            box-shadow: 0 0 30px rgba(139,0,0,.25);
         }
 
-        .skill-card:hover { border-color: var(--accent-red); transform: translateY(-5px); }
-        .skill-icon { font-size: 2rem; color: var(--accent-red); margin-bottom: 15px; display: block; }
-        .skill-card h3 { font-size: 0.7rem; color: #555; margin-bottom: 5px; text-transform: uppercase; }
+        .skill-card { padding: 30px 20px; }
+        .skill-card:hover { transform: translateY(-4px); }
+        .skill-icon { font-size: 2rem; color: var(--accent-text); margin-bottom: 15px; display: block; }
+        .skill-card h3 { font-size: 0.7rem; color: #8a8f98; margin: 0 0 5px; text-transform: uppercase; }
         .skill-card p { font-size: 0.95rem; margin: 0; font-weight: 600; color: #fff; }
 
-        /* FEATURED PROJECT: DANCING FORWARD - IMAGE RIGHT */
+        /* Featured project: now dark, stands out by size, border and glow */
         .featured-card {
             display: grid;
-            grid-template-columns: 1.2fr 1fr; /* Text left, Image right */
+            grid-template-columns: 1.2fr 1fr;
             gap: 40px;
-            background: var(--pure-white);
+            align-items: center;
+            position: relative;
+            background: linear-gradient(160deg, #1a1111 0%, var(--card-dark) 55%);
+            border: 1px solid rgba(208,74,60,.45);
+            border-top: 4px solid var(--accent-red);
+            border-radius: var(--r-card);
             padding: 45px;
-            border-radius: 20px;
             text-align: left;
-            color: var(--text-dark);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            border-top: 10px solid #000;
             margin-bottom: 2.5rem;
-            position: relative; /* For badge positioning */
-            align-items: center; /* Vertical Center */
+            box-shadow: 0 0 60px rgba(139,0,0,.22);
         }
+        .featured-card h3 { color: var(--pure-white); font-size: 2rem; margin: 0 0 .5rem; }
+        .featured-card p { color: var(--text-main); }
+        .featured-card ul { padding-left: 20px; margin: 20px 0; }
+        .featured-card li { margin-bottom: 10px; font-size: 0.95rem; color: var(--text-dim); }
+        .featured-card li b { color: var(--text-main); }
 
-        .featured-card h3 { color: var(--accent-red); font-size: 2rem; margin-top: 0; }
-        
-        /* Badge at top-right */
         .badge {
             position: absolute;
-            top: 25px;
-            right: 25px;
+            top: 20px; right: 20px;
             background: var(--accent-red);
-            color: white;
+            color: #fff;
             font-size: 0.7rem;
             padding: 4px 12px;
-            border-radius: 20px;
+            border-radius: var(--r-pill);
             font-weight: 700;
             text-transform: uppercase;
         }
 
-        .featured-card ul { padding-left: 20px; margin: 20px 0; }
-        .featured-card li { margin-bottom: 10px; font-size: 0.95rem; color: #333; }
-
         .gameplay-img {
+            display: block;
             width: 100%;
             height: auto;
-            border-radius: 12px;
-            border: 2px solid var(--accent-red);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: var(--r-small);
+            border: 1px solid rgba(208,74,60,.5);
         }
+
+        .visual .gameplay-img + .gameplay-img { margin-top: 12px; }
+
+        .project-grid.single { grid-template-columns: 1fr; }
+        .shot-single { max-width: 640px; }
 
         .project-grid {
             display: grid;
@@ -199,45 +260,79 @@
         }
 
         .small-card {
-            background: var(--card-dark);
             padding: 35px;
-            border-radius: 16px;
-            border-left: 5px solid var(--accent-red);
+            border-left: 4px solid var(--accent-red);
+            display: flex;
+            flex-direction: column;
+        }
+        .small-card h4 { margin: 0 0 8px; font-size: 1.2rem; color: var(--pure-white); }
+        .small-card .tag { font-size: 0.85rem; color: var(--accent-text); font-weight: 600; margin: 0 0 12px; }
+        .small-card ul { padding-left: 18px; margin: 0 0 20px; color: var(--text-dim); font-size: 0.85rem; }
+        .small-card li { margin-bottom: 8px; }
+        .small-card .btn { margin-top: auto; align-self: flex-start; }
+
+        .card-video {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--r-small);
+            background: #000;
+            margin-bottom: 1.2rem;
+            border: 1px solid var(--line);
         }
 
-        .small-card h4 { margin: 0 0 15px 0; font-size: 1.2rem; color: var(--pure-white); }
-        .small-card ul { padding-left: 18px; margin: 0; color: var(--text-dim); font-size: 0.85rem; }
-        .small-card li { margin-bottom: 8px; }
+        .meta { font-size: 0.75rem; color: var(--text-dim); margin: 0 0 1rem; }
+        .shot { display: block; width: 100%; height: auto; border-radius: var(--r-small); border: 1px solid var(--line); transition: border-color .3s; }
+        a:hover > .shot { border-color: rgba(208,74,60,.6); }
+        .small-card > a { display: block; margin-bottom: 10px; }
+        .shot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.2rem; }
+        .shot-grid a { display: block; }
+        code.inline { background: #000; padding: 1px 6px; border-radius: 4px; color: var(--accent-text); font-size: 0.8rem; white-space: normal; }
 
+        /* ---------- Technical breakdowns ---------- */
+        .case { margin-bottom: 20px; text-align: left; }
+        .case-meta { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-text); font-weight: 700; margin: 0 0 6px; }
+        .case h3 { margin: 0 0 18px; font-size: 1.25rem; color: var(--pure-white); }
+        .case dl { display: grid; grid-template-columns: 100px 1fr; gap: 12px 24px; margin: 0 0 20px; }
+        .case dt { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); font-weight: 700; padding-top: 3px; }
+        .case dd { margin: 0; font-size: 0.92rem; color: var(--text-main); }
+        .case-fig { max-width: 584px; }
+        .case details { margin-top: 4px; }
+        .case summary { cursor: pointer; color: var(--accent-text); font-weight: 600; font-size: 0.85rem; padding: 6px 0; }
+        .case details[open] summary { margin-bottom: 8px; }
+        .case .code-container { margin: 1rem 0 0; }
+        @media (max-width: 600px) { .case dl { grid-template-columns: 1fr; gap: 4px; } .case dd { margin-bottom: 10px; } }
+
+        /* ---------- Code ---------- */
         .code-container { text-align: left; margin: 2.5rem 0; }
+
         .code-header {
             background: #000;
             padding: 12px 20px;
-            border-radius: 8px 8px 0 0;
-            color: var(--accent-red);
-            font-family: monospace;
+            border-radius: var(--r-small) var(--r-small) 0 0;
+            color: var(--accent-text);
+            font-family: 'JetBrains Mono', Consolas, monospace;
             font-size: 0.8rem;
-            border: 1px solid #333;
+            border: 1px solid var(--line);
             border-bottom: none;
         }
-
         .code-body {
             background: #000;
             padding: 25px;
-            border-radius: 0 0 8px 8px;
-            border: 1px solid #333;
+            border-radius: 0 0 var(--r-small) var(--r-small);
+            border: 1px solid var(--line);
             overflow-x: auto;
         }
+        code { color: #cfcfcf; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 0.85rem; white-space: pre; }
+        .c-kw { color: #e0675a; }  /* keywords: light crimson */
+        .c-ty { color: #d6b98c; }  /* types: warm sand */
+        .c-cm { color: #6b7280; }  /* comments: muted gray */
 
-        code { color: #ccc; font-family: 'Consolas', monospace; font-size: 0.85rem; white-space: pre; }
-        .c-kw { color: #569cd6; } 
-        .c-ty { color: #4ec9b0; } 
-        .c-cm { color: #6a9955; } 
-
-        footer { padding: 6rem 0; opacity: 0.3; font-size: 0.8rem; }
+        footer { padding: 6rem 0 2rem; text-align: left; color: var(--text-dim); opacity: .6; font-size: 0.8rem; }
 
         @media (max-width: 850px) {
-            .featured-card { grid-template-columns: 1fr; }
+            .featured-card { grid-template-columns: 1fr; padding: 70px 28px 32px; }
             .project-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -250,22 +345,34 @@
         <header>
             <h1>MATIAS FISCHER</h1>
             <div class="role">Technical Sound Designer</div>
+            <div class="status"><span class="status-dot" aria-hidden="true"></span>Open to Work · Remote</div>
             <p class="summary">
                 Bachelor's Degree in Video Game Development specializing in adaptive audio architecture, middleware integration (FMOD/Wwise), and performance optimization for interactive media.
             </p>
         </header>
 
         <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/uM6j1Nawb8A" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/uM6j1Nawb8A" title="Matias Fischer demo reel" loading="lazy" allowfullscreen></iframe>
         </div>
 
-	<div class="button-group">
-    		<a href="http://www.linkedin.com/in/matias-fischer-87416620a" class="btn btn-primary" target="_blank">LinkedIn</a>
-   		 <a href="Matias_Fischer_Technical_SoundDesigner_CV.pdf" class="btn btn-secondary" download>Download CV</a>
-    		<a href="https://mfosh.itch.io/" class="btn btn-secondary" target="_blank">Itch.io</a>
-    		<a href="mailto:fischermatias16@gmail.com" class="btn btn-secondary">Email</a>
-	</div>
+        <div class="button-group">
+            <a href="https://www.linkedin.com/in/matias-fischer-87416620a" class="btn btn-primary" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="Matias_Fischer_Technical_SoundDesigner_CV.pdf" class="btn btn-secondary" download>Download CV</a>
+            <a href="Matias_Fischer_Dancing_Forward_Technical_Documentation.pdf" class="btn btn-secondary" target="_blank" rel="noopener">Tech Docs (PDF)</a>
+            <a href="https://mfosh.itch.io/" class="btn btn-secondary" target="_blank" rel="noopener">Itch.io</a>
+            <a href="mailto:fischermatias16@gmail.com" class="btn btn-secondary">Email</a>
+        </div>
 
+        <div class="wave" aria-hidden="true"></div>
+        <div class="section-title">About Me</div>
+        <p class="about">
+            I'm a technical sound designer based in Buenos Aires, working at the point where audio meets code. I compose, design, and implement: from building adaptive systems in FMOD and Wwise to writing the C# that connects them to gameplay.
+        </p>
+        <p class="about">
+            I care about audio that reacts to the player and runs lean on any platform. Currently open to junior/mid technical audio roles and collaborations.
+        </p>
+
+        <div class="wave" aria-hidden="true"></div>
         <div class="section-title">Technical Stack</div>
         <div class="skills-grid">
             <div class="skill-card">
@@ -290,86 +397,292 @@
             </div>
         </div>
 
+        <div class="wave" aria-hidden="true"></div>
         <div class="section-title">Featured Work</div>
 
         <div class="featured-card">
             <span class="badge">Vertical Slice</span>
-            
+
             <div class="content">
                 <h3>Dancing Forward</h3>
-                <p><b>Lead Technical Sound & Composer.</b> A 2D rhythm-platformer built in Unity where gameplay logic drives the audio engine via FMOD callbacks.</p>
+                <p><b>Sole Audio Developer</b> · Sound Design, Composition &amp; FMOD/Unity Implementation. A 2D rhythm-platformer built in Unity where gameplay logic drives the audio engine via FMOD callbacks.</p>
                 <ul>
-                    <li><b>Adaptive Music:</b> Designed a dynamic system with Speed/BPM changes using magnet regions and logic markers in FMOD.</li>
-                    <li><b>Rhythm Sync:</b> Frame-accurate synchronization of environmental VFX and Input with BPM via C# timeline callbacks.</li>
-                    <li><b>C# Integration:</b> Custom wrappers passing real-time gameplay variables (combo) to FMOD parameters.</li>
+                    <li><b>Tempo Scaling Without Pitch Shift:</b> Multiple tempo versions of each track joined by Magnet Regions with Relative Offsets and <code class="inline">ComboStreak</code> conditions, so the beat grid stays intact and transitions never cut.</li>
+                    <li><b>Timer Sync Across Tempos:</b> Each tempo section's end timestamp is stored as an FMOD User Property and parsed in C# (<code class="inline">LoadMarkers</code> / <code class="inline">ParseTimeToMs</code>) to keep the level timer correct.</li>
+                    <li><b>Beat-Driven Logic:</b> <code class="inline">TIMELINE_BEAT</code> and <code class="inline">TIMELINE_MARKER</code> callbacks drive VFX, UI and the countdown instead of <code class="inline">Update()</code>.</li>
+                    <li><b>Mix Architecture:</b> Cutscenes / Music / SFX buses, with SFX split into In-Game and UI, and a reverb return applied only to in-game sounds.</li>
                 </ul>
-                <a href="https://fivekeysstudio.itch.io/dancing-forward" class="btn btn-primary" style="font-size: 0.7rem; padding: 10px 20px;">Play on Itch.io</a>
+                <a href="https://fivekeysstudio.itch.io/dancing-forward" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Play on Itch.io</a>
             </div>
 
             <div class="visual">
-                <img src="dancing-forward-gameplay.png" alt="Dancing Forward Gameplay" class="gameplay-img">
+                <div class="card-video">
+                    <iframe src="https://www.youtube.com/embed/gW2vHNRxskw" title="Dancing Forward gameplay" loading="lazy" allowfullscreen></iframe>
+                </div>
+                <img src="dancing-forward-fmod-timeline.png" alt="FMOD timeline with tempo markers and Magnet Regions for Dancing Forward" class="gameplay-img" loading="lazy">
             </div>
         </div>
 
         <div class="project-grid">
             <div class="small-card">
                 <h4>Interactive Audio (Wwise)</h4>
+                <p class="meta">Wwise + Unity · Music stems are not my own; shown for the implementation</p>
+
+                <a href="wwise-enemy-waves-rtpc.png" target="_blank" rel="noopener">
+                    <img src="wwise-enemy-waves-rtpc.png" alt="Wwise RTPC curves: Drums enter at Enemy_Waves 1 and Hi-Hat at 2" class="shot" loading="lazy">
+                </a>
+
                 <ul>
-                    <li><b>Dynamic Layering:</b> Musical intensity scaling via real-time layer blending based on enemy count.</li>
+                    <li><b>Dynamic Layering:</b> Music stems enter as the enemy count rises: Unity sends the count (0 to 3) to the <code class="inline">Enemy_Waves</code> RTPC, which drives each stem's Voice Volume.</li>
                     <li><b>Weather Systems:</b> Complex RTPC curves controlling low-pass filters and ambient density.</li>
                     <li><b>Spatial Logic:</b> Implementation of Reverb Zones and state-driven acoustic transitions.</li>
+                    <li><b>Unity Integration:</b> A single weather value drives both the Wwise RTPC and the rain particles, and a day-cycle controller maps normalized time to a time-of-day RTPC.</li>
                 </ul>
             </div>
             <div class="small-card">
-                <h4>Mobile Optimization</h4>
+                <h4>Clockwork Siege</h4>
+                <p class="tag">Mobile Tower Defense</p>
+                <p class="meta">Unity (C#) · Custom Audio System Architecture</p>
+                <div class="card-video">
+                    <iframe src="https://www.youtube.com/embed/24Tons0_ryQ" title="Clockwork Siege gameplay" loading="lazy" allowfullscreen></iframe>
+                </div>
                 <ul>
-                    <li><b>Native Audio:</b> Low-latency implementation using Unity native buffers for mobile devices.</li>
-                    <li><b>Memory Profile:</b> Optimized SoundBank allocation to maintain minimal runtime memory footprint.</li>
+                    <li><b>Custom Audio Manager:</b> C# singleton that plays sounds by name from an Inspector-configured library (clip, volume, pitch, loop), with a dictionary lookup and a dedicated looping music source.</li>
+                    <li><b>AudioSource Pooling:</b> A configurable pool of AudioSources (10 by default) is created at startup, so no sources are added during gameplay.</li>
+                    <li><b>Voice Cap &amp; Stealing:</b> The pool size caps simultaneous SFX; when every voice is busy, the oldest assigned voice is stopped and reused.</li>
                 </ul>
+                <a href="#clockwork-case" class="btn btn-secondary btn-sm">View Code Breakdown ↓</a>
             </div>
         </div>
 
-        <div class="section-title">Technical Case Studies (C#)</div>
+        <div class="wave" aria-hidden="true"></div>
+        <div class="section-title">FMOD Prototypes</div>
 
-        <div class="code-container">
-            <div class="code-header">Memory Optimization: AudioSource Pooling</div>
-            <div class="code-body">
-<code><span class="c-cm">// Pre-instantiating sources at Awake to prevent runtime CPU spikes</span>
+        <div class="project-grid single">
+            <div class="small-card">
+                <h4>ForestAmbience - Dynamic Weather &amp; Day/Night</h4>
+                <p class="tag">Adaptive Middleware Architecture</p>
+                <p class="meta">FMOD Studio prototype · Not engine-integrated · Sound design + system design</p>
+
+                <div class="card-video">
+                    <iframe src="https://www.youtube.com/embed/3C-Gr6LK2Nw" title="ForestAmbience FMOD demo" loading="lazy" allowfullscreen></iframe>
+                </div>
+
+                <ul>
+                    <li><b>Weather Control:</b> <code class="inline">Rain_Intensity</code> blends two rain layers (Rain_Medium / Rain_Full), with thunder as multi-instruments.</li>
+                    <li><b>Day/Night Cycle:</b> <code class="inline">Daytime</code> drives separate day (Day Animals) and night layers (Crickets, Owls, Wolves, Frogs, Chimes).</li>
+                    <li><b>Reactive Fauna:</b> Frog and wolf spawn rates follow <code class="inline">Daytime</code>; frogs also follow <code class="inline">Rain_Intensity</code>, so they are present every night and by day only when it rains.</li>
+                    <li><b>Reactive Ducking:</b> Compressor on the ambience bed, sidechained to both rain tracks, so rain takes space in the mix.</li>
+                    <li><b>Variability:</b> Scatterer and multi-instruments plus overlapping crossfaded loops to avoid audible repetition.</li>
+                </ul>
+
+                <a href="fmod-forest-sidechain.png" target="_blank" rel="noopener">
+                    <img src="fmod-forest-sidechain.png" alt="Compressor on the ambience bed with sidechain inputs from both rain tracks" class="shot shot-single" loading="lazy">
+                </a>
+                <p class="meta">Sidechain compressor on the ambience bed</p>
+            </div>
+        </div>
+
+        <div class="wave" aria-hidden="true"></div>
+        <div class="section-title">Technical Breakdowns</div>
+
+        <article class="small-card case">
+            <p class="case-meta">Dancing Forward · FMOD Studio + Unity</p>
+            <h3>Tempo changes without pitch shift</h3>
+            <dl>
+                <dt>Problem</dt>
+                <dd>The music had to speed up with the player's combo streak, but pitch-shifting a single track would break the beat callbacks tied to the FMOD tempo-marker grid.</dd>
+                <dt>Approach</dt>
+                <dd>Each song is arranged at several escalating tempos on one timeline event. Magnet Regions with Relative Offsets, driven by <code class="inline">ComboStreak</code> conditions, jump to the matching position in the faster version, so there are no audible cuts. Since each tempo has a different real duration, every section's end timestamp is stored as an FMOD User Property and parsed in C# (<code class="inline">LoadMarkers</code> / <code class="inline">ParseTimeToMs</code>) to keep the level timer correct. A lookup then returns the time remaining until the next marker of a given name, from the current timeline position.</dd>
+                <dt>Result</dt>
+                <dd>The tempo follows the player's performance while beat-synced logic keeps working. The setup is designed to be reusable as an FMOD template across levels.</dd>
+            </dl>
+            <img src="magnet-region-conditions.png" alt="FMOD Magnet Region transition conditions with a ComboStreak parameter and relative offset" class="shot case-fig" loading="lazy">
+            <p class="meta">Magnet Region: ComboStreak condition with relative offset</p>
+            <details>
+                <summary>View code</summary>
+                <div class="code-container">
+                    <div class="code-header">Load end times from User Properties</div>
+                    <div class="code-body">
+<code><span class="c-cm">// Read each tempo section's end time from FMOD User Properties ("mm:ss" strings)</span>
+<span class="c-kw">void</span> LoadMarkers()
+{
+    FMOD.Studio.EventDescription desc;
+    musicInstance.getDescription(<span class="c-kw">out</span> desc);
+
+    <span class="c-kw">int</span> count;
+    desc.getUserPropertyCount(<span class="c-kw">out</span> count);
+
+    <span class="c-ty">List</span>&lt;FMOD.Studio.USER_PROPERTY&gt; properties = <span class="c-kw">new</span> <span class="c-ty">List</span>&lt;FMOD.Studio.USER_PROPERTY&gt;();
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = 0; i &lt; count; i++)
+    {
+        FMOD.Studio.USER_PROPERTY prop;
+        desc.getUserPropertyByIndex(i, <span class="c-kw">out</span> prop);
+
+        <span class="c-kw">if</span> (prop.type == FMOD.Studio.USER_PROPERTY_TYPE.STRING)
+            properties.Add(prop);
+    }
+
+<span class="c-cm">    // Alphabetical order of the property names keeps the timeline order</span>
+    properties.Sort((a, b) =&gt; <span class="c-kw">string</span>.Compare(a.name, b.name, <span class="c-ty">StringComparison</span>.OrdinalIgnoreCase));
+
+    <span class="c-kw">foreach</span> (<span class="c-kw">var</span> prop in properties)
+        timelineInfo.allMarkers.Add(<span class="c-kw">new</span> <span class="c-ty">MarkerInfo</span>(prop.name, ParseTimeToMs(prop.stringValue())));
+}
+
+<span class="c-cm">// "1:23" -&gt; 83000 ms</span>
+<span class="c-kw">private</span> <span class="c-kw">int</span> ParseTimeToMs(<span class="c-kw">string</span> timeString)
+{
+    <span class="c-kw">string</span>[] parts = timeString.Split(':');
+    <span class="c-kw">if</span> (parts.Length != 2) <span class="c-kw">return</span> 0;
+
+    <span class="c-kw">int</span> minutes = <span class="c-kw">int</span>.Parse(parts[0].Trim());
+    <span class="c-kw">int</span> seconds = <span class="c-kw">int</span>.Parse(parts[1].Trim());
+    <span class="c-kw">return</span> (minutes * 60 + seconds) * 1000;
+}</code>
+                    </div>
+                </div>
+                <div class="code-container">
+                    <div class="code-header">Time remaining to the next marker</div>
+                    <div class="code-body">
+<code><span class="c-cm">// Index of the closest marker with this name that is still ahead of the playhead</span>
+<span class="c-kw">public</span> <span class="c-kw">int</span> GetNextMarkerIndexByName(<span class="c-kw">string</span> markerName)
+{
+    musicInstance.getTimelinePosition(<span class="c-kw">out</span> <span class="c-kw">int</span> currentPos);
+
+    <span class="c-kw">int</span> closestIndex = -1;
+    <span class="c-kw">int</span> smallestDiff = <span class="c-kw">int</span>.MaxValue;
+
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = 0; i &lt; timelineInfo.allMarkers.Count; i++)
+    {
+        <span class="c-kw">var</span> marker = timelineInfo.allMarkers[i];
+        <span class="c-kw">if</span> (marker.name == markerName)
+        {
+            <span class="c-kw">int</span> diff = marker.position - currentPos;
+            <span class="c-kw">if</span> (diff &gt; 0 &amp;&amp; diff &lt; smallestDiff)
+            {
+                smallestDiff = diff;
+                closestIndex = i;
+            }
+        }
+    }
+    <span class="c-kw">return</span> closestIndex;
+}
+
+<span class="c-cm">// Milliseconds left until that marker, from the current timeline position</span>
+<span class="c-kw">public</span> <span class="c-kw">int</span> GetTimeRemainingToMarker(<span class="c-kw">int</span> markerIndex)
+{
+    musicInstance.getTimelinePosition(<span class="c-kw">out</span> <span class="c-kw">int</span> currentPos);
+
+    <span class="c-kw">if</span> (markerIndex &lt; 0 || markerIndex &gt;= timelineInfo.allMarkers.Count)
+        <span class="c-kw">return</span> -1;
+
+    <span class="c-kw">return</span> timelineInfo.allMarkers[markerIndex].position - currentPos;
+}</code>
+                    </div>
+                </div>
+            </details>
+        </article>
+
+        <article class="small-card case">
+            <p class="case-meta">Dancing Forward · FMOD Studio + Unity</p>
+            <h3>Gameplay locked to the beat</h3>
+            <dl>
+                <dt>Problem</dt>
+                <dd>Gameplay, UI animations and the countdown had to stay in sync with the music at any BPM, and frame-based timing in <code class="inline">Update()</code> is not tied to the audio.</dd>
+                <dt>Approach</dt>
+                <dd>FMOD <code class="inline">TIMELINE_BEAT</code> and <code class="inline">TIMELINE_MARKER</code> callbacks fill a <code class="inline">TimelineInfo</code> object (beat in bar, beat counter, beat duration, last marker). Scripts that need to be in sync subscribe to Unity Events raised from those callbacks, and the <code class="inline">Countdown</code> parameter is updated on every beat.</dd>
+                <dt>Result</dt>
+                <dd>The count-off, VFX and rhythm logic follow the music regardless of each level's BPM.</dd>
+            </dl>
+            <details>
+                <summary>View code</summary>
+                <div class="code-container">
+                    <div class="code-header">Beat Sync: FMOD Timeline Callbacks</div>
+                    <div class="code-body">
+<code><span class="c-cm">// FMOD beat/marker callbacks drive gameplay sync, instead of Update()</span>
+<span class="c-kw">private</span> <span class="c-kw">static</span> FMOD.RESULT BeatEventCallback(FMOD.Studio.EVENT_CALLBACK_TYPE type,
+                                             <span class="c-ty">IntPtr</span> instancePtr, <span class="c-ty">IntPtr</span> parameterPtr)
+{
+    <span class="c-kw">var</span> instance = <span class="c-kw">new</span> FMOD.Studio.EventInstance(instancePtr);
+    instance.getUserData(<span class="c-kw">out</span> <span class="c-ty">IntPtr</span> userDataPtr);
+    <span class="c-kw">if</span> (userDataPtr == <span class="c-ty">IntPtr</span>.Zero) <span class="c-kw">return</span> FMOD.RESULT.OK;
+
+    <span class="c-kw">var</span> info = <span class="c-ty">GCHandle</span>.FromIntPtr(userDataPtr).Target <span class="c-kw">as</span> <span class="c-ty">TimelineInfo</span>;
+    <span class="c-kw">if</span> (info == <span class="c-kw">null</span>) <span class="c-kw">return</span> FMOD.RESULT.OK;
+
+    <span class="c-kw">switch</span> (type)
+    {
+        <span class="c-kw">case</span> FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_BEAT:
+            <span class="c-kw">var</span> b = (FMOD.Studio.TIMELINE_BEAT_PROPERTIES)<span class="c-ty">Marshal</span>.PtrToStructure(
+                parameterPtr, <span class="c-kw">typeof</span>(FMOD.Studio.TIMELINE_BEAT_PROPERTIES));
+            info.BeatInBar = b.beat;
+            info.BeatCounter++;
+            info.BeatDurationMs = b.tempo &gt; 0 ? 60000f / b.tempo : 0f;
+            <span class="c-kw">break</span>;
+
+        <span class="c-kw">case</span> FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER:
+            <span class="c-kw">var</span> m = (FMOD.Studio.TIMELINE_MARKER_PROPERTIES)<span class="c-ty">Marshal</span>.PtrToStructure(
+                parameterPtr, <span class="c-kw">typeof</span>(FMOD.Studio.TIMELINE_MARKER_PROPERTIES));
+            info.LastMarker = m.name;
+            <span class="c-kw">break</span>;
+    }
+    <span class="c-kw">return</span> FMOD.RESULT.OK;
+}</code>
+                    </div>
+                </div>
+            </details>
+        </article>
+
+        <article id="clockwork-case" class="small-card case">
+            <p class="case-meta">Clockwork Siege · Unity</p>
+            <h3>Bounded voices with a pooled AudioManager</h3>
+            <dl>
+                <dt>Problem</dt>
+                <dd>Waves of enemies in a mobile tower defense can fire many sounds at once, and the number of simultaneous voices needs a limit.</dd>
+                <dt>Approach</dt>
+                <dd>A custom <code class="inline">AudioManager</code> creates a fixed pool of AudioSources at startup and plays sounds by name through a dictionary. A queue tracks the pool: a free source is reused, and when every voice is busy, the oldest assigned one is stopped and reused.</dd>
+                <dt>Limitation</dt>
+                <dd>Moving a source to the back of the queue rebuilds it on every call, which allocates. A linked list would avoid that. Not yet measured with the Profiler.</dd>
+            </dl>
+            <details>
+                <summary>View code</summary>
+                <div class="code-container">
+                    <div class="code-header">Pool creation</div>
+                    <div class="code-body">
+<code><span class="c-cm">// Create the sources once at Awake, so none are added during gameplay</span>
 <span class="c-kw">private void</span> CreateAudioSourcePool() {
     sourcePool = <span class="c-kw">new</span> <span class="c-ty">Queue</span>&lt;<span class="c-ty">AudioSource</span>&gt;();
-    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = 0; i < poolSize; i++) {
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = 0; i &lt; poolSize; i++) {
         <span class="c-ty">AudioSource</span> src = gameObject.AddComponent&lt;<span class="c-ty">AudioSource</span>&gt;();
+        src.playOnAwake = <span class="c-kw">false</span>;
         sourcePool.Enqueue(src);
     }
 }</code>
-            </div>
-        </div>
-
-        <div class="code-container">
-            <div class="code-header">Efficiency: Dictionary-based Sound Lookup</div>
-            <div class="code-body">
-<code><span class="c-cm">// O(1) Search Complexity for high-frequency triggering</span>
-<span class="c-kw">private void</span> SetupSoundLookup() {
-    soundLookup = <span class="c-kw">new</span> <span class="c-ty">Dictionary</span>&lt;<span class="c-kw">string</span>, <span class="c-ty">Sound</span>&gt;();
-    <span class="c-keyword">foreach</span> (<span class="c-kw">var</span> sound <span class="c-kw">in</span> sounds) {
-        soundLookup.Add(sound.name, sound);
+                    </div>
+                </div>
+                <div class="code-container">
+                    <div class="code-header">Voice stealing</div>
+                    <div class="code-body">
+<code><span class="c-cm">// Reuse a free voice; if the pool is exhausted, steal the oldest one</span>
+<span class="c-kw">private</span> <span class="c-ty">AudioSource</span> GetSourceFromPool()
+{
+    <span class="c-kw">foreach</span> (<span class="c-kw">var</span> source in sourcePool)
+    {
+        <span class="c-kw">if</span> (!source.isPlaying)
+            <span class="c-kw">return</span> ExtractAndRequeue(source); <span class="c-cm">// move it to the back of the queue</span>
     }
-}</code>
-            </div>
-        </div>
 
-        <div class="code-container">
-            <div class="code-header">Concurrency: Voice Stealing Logic</div>
-            <div class="code-body">
-<code><span class="c-cm">// Fallback to stealing the oldest active voice if pool is exhausted</span>
-<span class="c-kw">public void</span> Play(<span class="c-kw">string</span> name) {
-    <span class="c-kw">if</span> (!soundLookup.TryGetValue(name, <span class="c-kw">out</span> <span class="c-ty">Sound</span> s)) <span class="c-kw">return</span>;
-    <span class="c-ty">AudioSource</span> src = GetSourceFromPool();
-    src.clip = s.clip;
-    src.Play();
+<span class="c-cm">    // All voices busy: the front of the queue is the oldest assigned voice</span>
+    <span class="c-ty">AudioSource</span> busySource = sourcePool.Dequeue();
+    busySource.Stop(); <span class="c-cm">// stop the previous sound cleanly</span>
+    sourcePool.Enqueue(busySource);
+    <span class="c-kw">return</span> busySource;
 }</code>
-            </div>
-        </div>
+                    </div>
+                </div>
+            </details>
+        </article>
 
         <footer>
             &copy; 2026 Matias Fischer • Buenos Aires, Argentina
